@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML Data Display</title>
+</head>
+<body>
+    <h1>Student Information</h1>
+    <div id="output"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200) {
+                    var xmlDoc = this.responseXML;
+                    var students = xmlDoc.getElementsByTagName("student");
+
+                    var output = document.getElementById("output");
+                    for(var i=0; i<students.length; ++i) {
+                        var name = students[i].getElementsByTagName("name")[0].textContent;
+                        var age = students[i].getElementsByTagName("age")[0].textContent;
+                        var grade = students[i].getElementsByTagName("grade")[0].textContent;
+
+                        output.innerHTML += "<p><strong>Name: </strong>" + name + "<br><strong>Age: </strong>" + age + "<br><strong>Grade: </strong>" + grade + "</p>";
+                    }
+                }
+            };
+            xhr.open("GET", "exp5.php", true);
+            xhr.send();
+        });
+    </script>
+</body>
+</html>
